@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Management;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace printer.Configurator.Windows
     {
 
         [SupportedOSPlatform("windows")]
-        internal static List<string> LoadInstalledPrinters()
+        internal static List<string> LoadInstalledPrintersNames()
         {
             List<string> printers = new();
             foreach (string printerName in PrinterSettings.InstalledPrinters)
@@ -22,5 +23,8 @@ namespace printer.Configurator.Windows
             }
             return printers;
         }
+
+        [SupportedOSPlatform("windows")]
+        internal static ManagementObjectCollection LoadInstalledPrinters()=>new ManagementObjectSearcher("SELECT * FROM Win32_Printer").Get();
     }
 }
